@@ -7,6 +7,16 @@
         "16":"attendance.png",
         "48":"attendance.png",
         "125":"attendance.png"
-    }
+    },
+    "action":{
+        "default_icon":{
+            "16":"attendance.png",
+            "24":"attendance.png",
+            "32":"attendance.png"
+        },
+        "default_title":"extension title",
+        "default_popup":"popup.html"
+    },
+    "options_page":"options.html"
 
 }
