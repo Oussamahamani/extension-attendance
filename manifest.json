@@ -21,6 +21,13 @@
     "permissions":["storage","alarms"],
     "background": {
         "service_worker": "background.js"
-    }
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://perscholas.instructure.com/courses/*/external_tools/12"],
+            "js": ["contentScript.js"],
+            "css":["contentScript.css"]
+        }
+    ]
 
 }
