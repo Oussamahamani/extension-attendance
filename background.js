@@ -46,8 +46,8 @@
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
       // Log the request URL
-    //   console.log(details)
-      if (details.requestBody && details.requestBody.raw) {
+      if (details.requestBody && details.requestBody.raw &&details.initiator === "https://rollcall.instructure.com" && details.url.includes("https://rollcall.instructure.com/statuses")) {
+          console.log(details)
         // Convert the raw request body to a string
         var requestBody = String.fromCharCode.apply(null, new Uint8Array(details.requestBody.raw[0].bytes));
         let {status} = JSON.parse(requestBody) 
@@ -57,21 +57,7 @@ chrome.webRequest.onBeforeRequest.addListener(
       }
       if(details.url.includes('https://rollcall.instructure.com/sections/') && details.initiator === "https://perscholas.instructure.com" ){
           console.log("Request URL: " , details);
-        let sectionId = details.url.split('sections/')[1]
-        // console.log("Request URL",sectionId)
-        chrome.storage.sync.get([
-            "section"
-        ],(res)=>{
-            console.log('exist here',res)
-        if(res.section){
-            console.log('exists')
-        }else{
-            console.log('des not exists')
-            chrome.storage.sync.set({
-              section:sectionId
-            })
-        }
-        })
+
     //           chrome.tabs.create({ url: details.url,active: true }, function(newTab) {
 
     //   })

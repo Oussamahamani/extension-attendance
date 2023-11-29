@@ -15,3 +15,9 @@ chrome.storage.sync.get([
 //res.name
 //call
 })
+
+
+name as key
+{
+    `date${date}`:status
+}
