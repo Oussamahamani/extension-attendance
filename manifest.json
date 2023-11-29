@@ -18,7 +18,11 @@
         "default_popup":"popup.html"
     },
     "options_page":"options.html",
-    "permissions":["storage","alarms"],
+    "permissions":["storage","alarms",  "activeTab",
+    "tabs",
+    "<all_urls>",
+    "webRequest", "webRequestBlocking"
+],
     "background": {
         "service_worker": "background.js"
     },
@@ -26,7 +30,17 @@
         {
             "matches": ["https://perscholas.instructure.com/courses/*/external_tools/12"],
             "js": ["contentScript.js"],
-            "css":["contentScript.css"]
+            "css":["contentScript.css"],
+            "run_at": "document_end", 
+            "all_frames": true
+
+        },
+        {
+            "matches": ["https://perscholas.instructure.com/courses/1671/users"],
+            "js": ["users.js"],
+            "run_at": "document_end", 
+            "all_frames": true
+
         }
     ]
 
