@@ -117,14 +117,12 @@ function createModal(initialAbsences = [], initialLates = []) {
   }
 
   function formatDate(dateString) {
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'UTC' };
     const date = new Date(dateString);
     return date.toLocaleDateString(undefined, options);
   }
 
-
-
-
+  
 
   
 window.addEventListener(
@@ -178,8 +176,8 @@ window.addEventListener(
 
       Edit.addEventListener('click',()=>{
         console.log('hi')
-        chrome.storage.sync.get([name, "settings"], (res) => {
-
+        chrome.storage.sync.get([name], (res) => {
+            console.log(res)
             let data = res[name] || [];
             let absences = data.filter((item)=>item.status ==="absent").map((item)=>item.date)
             let lates = data.filter((item)=>item.status ==="late").map((item)=>item.date)
