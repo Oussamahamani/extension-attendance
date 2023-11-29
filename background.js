@@ -54,6 +54,13 @@ chrome.webRequest.onBeforeRequest.addListener(
 
         // Log the request body
         console.log("Request Body: ",status);
+
+        let obj={
+            [`date${status.class_date}`]:status.attendance
+        }
+        chrome.storage.sync.set({
+        [status.student.name]:obj
+        }) 
       }
       if(details.url.includes('https://rollcall.instructure.com/sections/') && details.initiator === "https://perscholas.instructure.com" ){
           console.log("Request URL: " , details);
