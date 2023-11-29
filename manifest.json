@@ -32,7 +32,6 @@
         {
             "matches": ["https://perscholas.instructure.com/courses/*/external_tools/12"],
             "js": ["contentScript.js"],
-            "css":["contentScript.css"],
             "run_at": "document_end", 
             "all_frames": true
 
@@ -41,6 +40,8 @@
         {
             "matches": ["https://rollcall.instructure.com/sections/1570"],
             "js": ["attendance.js"],
+            "css":["contentScript.css"],
+
             "run_at": "document_end", 
             "all_frames": true
 
