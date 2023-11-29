@@ -37,6 +37,19 @@ window.addEventListener("load", async()=>{
         late.style.width = "100px";
         late.innerText = "late email";
         late.style.zIndex = 100;
+        let name = user.querySelector(".student-name").innerText
+        email.addEventListener('click',()=>{
+            console.log(name)
+            navigator.clipboard.writeText(name)
+            chrome.storage.sync.get([
+             name
+            ],(res)=>{
+         
+            })
+        })
+        late.addEventListener('click',()=>{
+
+        })
         user.appendChild(email);
         user.appendChild(late);
     }

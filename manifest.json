@@ -21,7 +21,9 @@
     "permissions":["storage","alarms",  "activeTab",
     "tabs",
     "<all_urls>",
-    "webRequest", "webRequestBlocking"
+    "webRequest", "webRequestBlocking",
+    "contextMenus",
+    "clipboardWrite"  
 ],
     "background": {
         "service_worker": "background.js"

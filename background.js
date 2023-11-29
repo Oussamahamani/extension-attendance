@@ -56,7 +56,7 @@ chrome.webRequest.onBeforeRequest.addListener(
         console.log("Request Body: ",status);
 
         let obj={
-            [`date${status.class_date}`]:status.attendance
+            [`date/${status.class_date}`]:status.attendance
         }
         chrome.storage.sync.set({
         [status.student.name]:obj
