@@ -46,7 +46,7 @@
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
       // Log the request URL
-      console.log(details)
+    //   console.log(details)
       if (details.requestBody && details.requestBody.raw) {
         // Convert the raw request body to a string
         var requestBody = String.fromCharCode.apply(null, new Uint8Array(details.requestBody.raw[0].bytes));
@@ -59,9 +59,22 @@ chrome.webRequest.onBeforeRequest.addListener(
           console.log("Request URL: " , details);
         let sectionId = details.url.split('sections/')[1]
         // console.log("Request URL",sectionId)
-              chrome.tabs.create({ url: details.url,active: true }, function(newTab) {
+        chrome.storage.sync.get([
+            "section"
+        ],(res)=>{
+            console.log('exist here',res)
+        if(res.section){
+            console.log('exists')
+        }else{
+            console.log('des not exists')
+            chrome.storage.sync.set({
+              section:sectionId
+            })
+        }
+        })
+    //           chrome.tabs.create({ url: details.url,active: true }, function(newTab) {
 
-      })
+    //   })
       }
       // Check if the request has a request body
    
