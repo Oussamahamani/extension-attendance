@@ -40,10 +40,13 @@ window.addEventListener("load", async()=>{
         let name = user.querySelector(".student-name").innerText
         email.addEventListener('click',()=>{
             console.log(name)
-            navigator.clipboard.writeText(name)
+            // navigator.clipboard.writeText(name)
             chrome.storage.sync.get([
              name
             ],(res)=>{
+         console.log(res)
+         console.log(Object.keys(res[name]))
+
          
             })
         })

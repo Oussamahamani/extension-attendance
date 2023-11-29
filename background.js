@@ -22,7 +22,6 @@
 //     }
 //   });
 
-
 // //   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 // //     if (changeInfo.status == 'complete' && tab.url.includes('https://perscholas.instructure.com/courses/1671/external_tools/12')) {
 // //         chrome.tabs.executeScript(tabId, {
@@ -34,7 +33,6 @@
 // //     }
 // // });
 
-
 // chrome.runtime.onInstalled.addListener((details)=>{
 //     chrome.contextMenus.create({
 //         title:"copy email",
@@ -44,37 +42,52 @@
 // })
 
 chrome.webRequest.onBeforeRequest.addListener(
-    function(details) {
-      // Log the request URL
-      if (details.requestBody && details.requestBody.raw &&details.initiator === "https://rollcall.instructure.com" && details.url.includes("https://rollcall.instructure.com/statuses")) {
-          console.log(details)
-        // Convert the raw request body to a string
-        var requestBody = String.fromCharCode.apply(null, new Uint8Array(details.requestBody.raw[0].bytes));
-        let {status} = JSON.parse(requestBody) 
+  async function (details) {
+    // if the request is for marking student attendance
+    if (
+      details.requestBody &&
+      details.requestBody.raw &&
+      details.initiator === "https://rollcall.instructure.com" &&
+      details.url.includes("https://rollcall.instructure.com/statuses")
+    ) {
+      // Convert the raw request body to a string
+      var requestBody = String.fromCharCode.apply(
+        null,
+        new Uint8Array(details.requestBody.raw[0].bytes)
+      );
+      let { status } = JSON.parse(requestBody);
+      const { class_date: date, attendance,student } = status;
 
-        // Log the request body
-        console.log("Request Body: ",status);
+      console.log(details);
+      console.log("Request Body: ", status);
 
-        let obj={
-            [`date/${status.class_date}`]:status.attendance
+      let data = []
+      chrome.storage.sync.get([student.name], (res) => {
+        // console.log(res);
+        if(res[student.name]){
+          data = res[student.name]
         }
-        chrome.storage.sync.set({
-        [status.student.name]:obj
-        }) 
-      }
-      if(details.url.includes('https://rollcall.instructure.com/sections/') && details.initiator === "https://perscholas.instructure.com" ){
-          console.log("Request URL: " , details);
 
-    //           chrome.tabs.create({ url: details.url,active: true }, function(newTab) {
+        let obj = {
+          status: attendance,
+          timeStamp: new Date(date).getTime(),
+          date,
+          name:student.name
+      };
+      let filteredData = data.filter((item)=>item.date !== obj.date)
+      filteredData.push(obj)
 
-    //   })
-      }
-      // Check if the request has a request body
-   
-  
-      // Continue the request
-      return { cancel: false };
-    },
-    { urls: ["<all_urls>"] }, // Intercept all URLs
-    ["requestBody"] // Include the request body in the listener
-  );
+      chrome.storage.sync.set({
+        [student.name]: filteredData,
+      });
+
+
+      });
+ 
+    }
+
+    return { cancel: false };
+  },
+  { urls: ["<all_urls>"] }, // Intercept all URLs
+  ["requestBody"] // Include the request body in the listener
+);
