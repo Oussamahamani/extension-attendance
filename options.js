@@ -10,6 +10,12 @@ function submitForm() {
     };
 
     console.log(formData);
+    chrome.storage.sync.set({
+        settings: formData,
+      });
+      document.getElementById('instructorName').value = '';
+    document.getElementById('className').value = '';
+    document.getElementById('teacherSupportName').value = '';
     // Here, you can do whatever you want with the formData, such as sending it to a server.
 
     // For now, let's just alert the values.
@@ -20,3 +26,10 @@ function submitForm() {
 }
 let button = document.querySelector('.submit')
 button.addEventListener('click',submitForm)
+
+chrome.storage.sync.get("settings", ({settings}) => {
+
+    document.getElementById('instructorName').value = settings.instructorName;
+    document.getElementById('className').value = settings.className;
+    document.getElementById('teacherSupportName').value = settings.teacherSupportName;
+})
