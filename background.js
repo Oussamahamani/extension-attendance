@@ -46,7 +46,15 @@
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
       // Log the request URL
-      
+      console.log(details)
+      if (details.requestBody && details.requestBody.raw) {
+        // Convert the raw request body to a string
+        var requestBody = String.fromCharCode.apply(null, new Uint8Array(details.requestBody.raw[0].bytes));
+        let {status} = JSON.parse(requestBody) 
+
+        // Log the request body
+        console.log("Request Body: ",status);
+      }
       if(details.url.includes('https://rollcall.instructure.com/sections/') && details.initiator === "https://perscholas.instructure.com" ){
           console.log("Request URL: " , details);
         let sectionId = details.url.split('sections/')[1]
