@@ -40,6 +40,29 @@
 //         contexts:["all"]
 //     })
 // })
+function getOrdinalSuffix(day) {
+  if (day > 3 && day < 21) return 'th'; // thanks to exception rules
+  switch (day % 10) {
+      case 1:  return "st";
+      case 2:  return "nd";
+      case 3:  return "rd";
+      default: return "th";
+  }
+}
+
+function formatDate(timestamp) {
+  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  const date = new Date(timestamp);
+  const dayOfWeek = daysOfWeek[date.getDay()];
+  const month = monthsOfYear[date.getMonth()];
+  const dayOfMonth = date.getDate();
+  const year = date.getFullYear();
+  const ordinalSuffix = getOrdinalSuffix(dayOfMonth);
+
+  return `${dayOfWeek}, ${month} ${dayOfMonth}${ordinalSuffix}, ${year}`;
+}
 
 chrome.webRequest.onBeforeRequest.addListener(
   async function (details) {
@@ -67,16 +90,18 @@ chrome.webRequest.onBeforeRequest.addListener(
         if(res[student.name]){
           data = res[student.name]
         }
-
+        let timeStamp = new Date(date).getTime()+25200000
+        let formatedDate = formatDate(timeStamp)
         let obj = {
           status: attendance,
-          timeStamp: new Date(date).getTime(),
+          timeStamp ,
           date,
-          name:student.name
+          name:student.name,
+          formatedDate
       };
       let filteredData = data.filter((item)=>item.date !== obj.date)
       filteredData.push(obj)
-
+      console.log('final',filteredData)
       chrome.storage.sync.set({
         [student.name]: filteredData,
       });

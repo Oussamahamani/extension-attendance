@@ -45,8 +45,11 @@ window.addEventListener("load", async()=>{
              name
             ],(res)=>{
          console.log(res)
-         console.log(Object.keys(res[name]))
-
+         let data = res[name]
+        let absences = data.filter((item)=>item.status==="absent").sort((a, b) => a.timeStamp + b.timeStamp)
+            
+            console.log(data)
+            
          
             })
         })
