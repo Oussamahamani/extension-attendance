@@ -10,17 +10,17 @@
 // //     //Handle any results
 // // });
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    if (request.action === 'performDOMOperations') {
-      // Trigger DOM operations
-      console.log('Background DOM operations');
+// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+//     if (request.action === 'performDOMOperations') {
+//       // Trigger DOM operations
+//       console.log('Background DOM operations');
 
-      chrome.tabs.create({ url: 'https://perscholas.instructure.com/courses/1671/users',active: false }, function(newTab) {
-    // Tab is created
+//       chrome.tabs.create({ url: 'https://perscholas.instructure.com/courses/1671/users',active: false }, function(newTab) {
+//     // Tab is created
 
-      })
-    }
-  });
+//       })
+//     }
+//   });
 
 
 // //   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
@@ -35,10 +35,32 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 // // });
 
 
-chrome.runtime.onInstalled.addListener((details)=>{
-    chrome.contextMenus.create({
-        title:"copy email",
-        id:"emailMenu",
-        contexts:["all"]
-    })
-})
+// chrome.runtime.onInstalled.addListener((details)=>{
+//     chrome.contextMenus.create({
+//         title:"copy email",
+//         id:"emailMenu",
+//         contexts:["all"]
+//     })
+// })
+
+chrome.webRequest.onBeforeRequest.addListener(
+    function(details) {
+      // Log the request URL
+      
+      if(details.url.includes('https://rollcall.instructure.com/sections/') && details.initiator === "https://perscholas.instructure.com" ){
+          console.log("Request URL: " , details);
+        let sectionId = details.url.split('sections/')[1]
+        // console.log("Request URL",sectionId)
+              chrome.tabs.create({ url: details.url,active: true }, function(newTab) {
+
+      })
+      }
+      // Check if the request has a request body
+   
+  
+      // Continue the request
+      return { cancel: false };
+    },
+    { urls: ["<all_urls>"] }, // Intercept all URLs
+    ["requestBody"] // Include the request body in the listener
+  );

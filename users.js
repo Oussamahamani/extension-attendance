@@ -42,7 +42,6 @@ console.log('document',formatTime());
                 
             }
          }
-         console.log('document wrong',users)
               let students=[]
      users.forEach((user)=>{
         let column = user.children

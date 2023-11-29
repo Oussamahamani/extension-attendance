@@ -1,5 +1,5 @@
 {
-    "manifest_version":3,
+    "manifest_version":2,
     "name":"attendance_email",
     "version":"0.1",
     "description":"Extension that generates absence/ late email for you",
@@ -35,9 +35,10 @@
             "all_frames": true
 
         },
+     
         {
-            "matches": ["https://perscholas.instructure.com/courses/1671/users"],
-            "js": ["users.js"],
+            "matches": ["https://rollcall.instructure.com/sections/1570"],
+            "js": ["attendance.js"],
             "run_at": "document_end", 
             "all_frames": true
 

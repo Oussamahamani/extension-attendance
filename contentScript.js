@@ -1,35 +1,43 @@
 //runs on specfic page
 
-window.addEventListener("load", myMain, false);
 
 
-function openNewTab(url) {
-    chrome.runtime.sendMessage({ action: 'performDOMOperations' });
-    console.log("hellor world", "running");
-    // chrome.tabs.create({ url: url, active: false })
-    //     console.log("hellor world", "created");
-  }
-  
-  // Function to perform DOM operations
-  function performDOMOperations(tabId) {
-    // Use chrome.tabs.executeScript to run scripts in the context of the new tab
-    chrome.tabs.executeScript(tabId, { code: 'console.log("DOM operations in the new tab");' });
-  }
 
 
 async function myMain(evt) {
- openNewTab('https://perscholas.instructure.com/courses/1671/users');
+//  openNewTab('https://perscholas.instructure.com/courses/1671/users');
+
   try {
-    // let l = document.querySelector("#student-list li");
-    // console.log("hellor world", l);
-    // var newElement = document.createElement("a");
+
+    // let section= window.router.sectionId
+    // console.log('document start')
+    // let counter = 0
+    // if(!section){
+    //    const interval = Array.from({ length: 200 }, () => null);
+    //    for (let i of interval){
+    //     section= window.router.sectionId
+    //     console.log('document nothing yet',counter)
+    //        if(section){
+        
+    //         console.log('document got it',section,' after ',counter)
+    //            break;
+    //        }
+    //        counter++
+    //        await new Promise(resolve => setTimeout(resolve, 100));
+           
+    //    }
+    // }
+    // let l = document.querySelector("#tool_content");
+    // l.style.position="relative"
+    // var newElement = document.createElement("button");
     // newElement.style.position = "absolute";
-    // newElement.style.top = "0";
-    // newElement.style.right = "0";
-    // newElement.style.width = 50;
-    // newElement.style.height = 20;
-    // newElement.style.innerText = "copy";
+    // newElement.style.top = "250p";
+    // newElement.style.right = "250";
+    // newElement.style.width = 300;
+    // newElement.style.height = 300;
+    // newElement.innerText = "copy";
     // newElement.style.zIndex = 10;
+    // newElement.className = "testingButton"
     // l.appendChild(newElement);
         // Select the iframe element by its ID
     //     var iframe = document.getElementById('tool_content');
@@ -48,3 +56,6 @@ async function myMain(evt) {
     console.log("hellor world", err);
   }
 }
+
+
+// window.addEventListener("load", myMain, false);
