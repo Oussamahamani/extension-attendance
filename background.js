@@ -65,6 +65,7 @@ chrome.webRequest.onBeforeRequest.addListener(
           name:student.name,
           formatedDate
       };
+    
       let filteredData = data.filter((item)=>item.date !== obj.date)
       filteredData.push(obj)
       console.log('final',filteredData)

@@ -165,8 +165,21 @@ function createModal(initialAbsences = [], initialLates = []) {
     const dateList = document.getElementById(listId);
     dateList.removeChild(dateItem);
 
+
+    
+    let data = []
+    chrome.storage.sync.get([currentName], (res) => {
+      if(res[currentName]){
+        data = res[currentName]
+      }  
+    let filteredData = data.filter((item)=>item.date !== date)
+    chrome.storage.sync.set({
+      [currentName]: filteredData,
+    });
+
+
+    });
     // You may want to handle additional logic when deleting the date
-    console.log(`Date ${date} deleted from ${listId}`);
 
 }
 
