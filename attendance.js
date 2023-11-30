@@ -1,3 +1,29 @@
+let currentName 
+
+function getOrdinalSuffix(day) {
+    if (day > 3 && day < 21) return 'th'; // thanks to exception rules
+    switch (day % 10) {
+        case 1:  return "st";
+        case 2:  return "nd";
+        case 3:  return "rd";
+        default: return "th";
+    }
+  }
+  
+  function formatDate(timestamp) {
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  
+    const date = new Date(timestamp);
+    const dayOfWeek = daysOfWeek[date.getDay()];
+    const month = monthsOfYear[date.getMonth()];
+    const dayOfMonth = date.getDate();
+    const year = date.getFullYear();
+    const ordinalSuffix = getOrdinalSuffix(dayOfMonth);
+  
+    return `${dayOfWeek}, ${month} ${dayOfMonth}${ordinalSuffix}, ${year}`;
+  }
+  
 function createModal(initialAbsences = [], initialLates = []) {
     // Create modal elements
     const modal = document.createElement('div');
@@ -95,26 +121,44 @@ function createModal(initialAbsences = [], initialLates = []) {
   }
 
   function handleSubmit(inputId, listId) {
+    console.log(currentName,inputId,'kkkkk',listId)
     const dateInput = document.getElementById(inputId);
     const dateList = document.getElementById(listId);
     const dateValue = dateInput.value;
+    console.log('time',dateInput.value)
 
     if (dateValue) {
       const dateItem = createInitialDateItem(dateValue, listId);
+      console.log(dateItem)
       dateList.appendChild(dateItem);
 
       // Clear the date input
       dateInput.value = '';
     }
+    let timeStamp = new Date(dateInput.value).getTime()+25200000
+    let formatedDate = formatDate(timeStamp)
+    let status = "absent"
+    if(inputId !== absenceDate) status = "late"
+    let obj ={
+        name:currentName,
+        date:dateInput.value,
+        timeStamp,
+        formatedDate,
+        status
+    }
+    
+    
   }
 
   function deleteDate(dateItem, listId, date) {
+    console.log(currentName)
     const dateList = document.getElementById(listId);
     dateList.removeChild(dateItem);
 
     // You may want to handle additional logic when deleting the date
     console.log(`Date ${date} deleted from ${listId}`);
-  }
+
+}
 
   function formatDate(dateString) {
     const options = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'UTC' };
@@ -122,7 +166,7 @@ function createModal(initialAbsences = [], initialLates = []) {
     return date.toLocaleDateString(undefined, options);
   }
 
-  
+
 
   
 window.addEventListener(
@@ -176,6 +220,7 @@ window.addEventListener(
 
       Edit.addEventListener('click',()=>{
         console.log('hi')
+        currentName = name
         chrome.storage.sync.get([name], (res) => {
             console.log(res)
             let data = res[name] || [];
