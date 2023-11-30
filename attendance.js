@@ -254,21 +254,21 @@ const addHeader=(exists)=>{
 }
 
 
+const otherDayReloadButton=()=>{
+  setTimeout(() => {
+    console.log('yay')
+    document.querySelector('.studentStats').innerHTML = ""
+    loadButtons()
+    document.removeEventListener('click', otherDayReloadButton);
+  }, 500)
+}
 const loadButtons = async () => {
   let nextDay = document.querySelector("#next-day");
 
-  nextDay.addEventListener("click", () => setTimeout(() => {
-    document.querySelector('.studentStats').innerHTML = ""
-    loadButtons()
-  
-  }, 500));
+  nextDay.addEventListener("click",otherDayReloadButton);
   let backDay = document.querySelector("#previous-day");
 
-  backDay.addEventListener("click", () => setTimeout(() => {
-    document.querySelector('.studentStats').innerHTML = ""
-    loadButtons()
-  
-  }, 500));
+  backDay.addEventListener("click",otherDayReloadButton );
 
   let users = document.querySelector("#student-list").children;
   let counter = 0;
