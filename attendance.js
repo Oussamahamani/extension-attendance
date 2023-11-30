@@ -278,9 +278,9 @@ const loadButtons = async () => {
     const Edit = document.createElement("button");
     Edit.style.position = "absolute";
     Edit.style.top = "0px";
-    Edit.style.right = "125px";
+    Edit.style.right = "155px";
     Edit.style.height = "50px";
-    Edit.style.width = "80px";
+    Edit.style.width = "50px";
     Edit.innerText = "Log";
     Edit.style.zIndex = 100;
 
@@ -303,7 +303,13 @@ const loadButtons = async () => {
       });
     });
 
-    email.addEventListener("click", () => {
+    email.addEventListener("click", (event) => {
+        event.target.textContent = 'Copied';
+
+        // Set a timeout to revert the button text back to "Copy" after 5 seconds
+        setTimeout(() => {
+          event.target.textContent = 'absent email';
+        }, 5000);
       console.log(name);
       chrome.storage.sync.get([name, "settings"], (res) => {
         console.log(res);
@@ -351,7 +357,14 @@ ${support} with the Learner Support Team`;
         navigator.clipboard.writeText(str);
       });
     });
-    late.addEventListener("click", () => {
+    late.addEventListener("click", (event) => {
+        console.lo
+        event.target.textContent = 'Copied';
+
+        // Set a timeout to revert the button text back to "Copy" after 5 seconds
+        setTimeout(() => {
+          event.target.textContent = 'late email';
+        }, 5000);
       console.log(name);
       chrome.storage.sync.get([name, "settings"], (res) => {
         console.log(res);
