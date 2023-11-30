@@ -235,29 +235,40 @@ function formatDate(dateString) {
 }
 
 
-function addHeader()=>{
-  let container= document.querySelector("#list-view-container")
-  var newElement = document.createElement('div');
-  container.insertBefore(newElement, container.firstChild);
+const addHeader=(exists)=>{
   const students = document.querySelectorAll('.has-avatar').length
   const absent = document.querySelectorAll('.absent.has-avatar').length
   const late = document.querySelectorAll('.late.has-avatar').length
-  
-  console.log('abent',absent)
-  console.log('late',late)
-  newElement.innerHTML = `<h5>Students: ${students} </h5>
-  <h5>absent: ${absent}</h5> 
-  <h5>Late: ${late}</h5> `; 
+  let text = `Students: ${students}  ||  absent: ${absent}  ||  Late: ${late}`
+  if(exists){
+    let newElement = document.querySelector('.studentStats')
+    newElement.textContent =text ;
+    return
+  }
+  let container= document.querySelector("#list-view-container")
+  var newElement = document.createElement('div');
+  newElement.classList.add('studentStats');
+  newElement.style.marginBottom="15px"
+  newElement.innerHTML = text; 
+  container.insertBefore(newElement, container.firstChild);
 }
 
 
 const loadButtons = async () => {
   let nextDay = document.querySelector("#next-day");
 
-  nextDay.addEventListener("click", () => setTimeout(() => loadButtons(), 500));
+  nextDay.addEventListener("click", () => setTimeout(() => {
+    document.querySelector('.studentStats').innerHTML = ""
+    loadButtons()
+  
+  }, 500));
   let backDay = document.querySelector("#previous-day");
 
-  backDay.addEventListener("click", () => setTimeout(() => loadButtons(), 500));
+  backDay.addEventListener("click", () => setTimeout(() => {
+    document.querySelector('.studentStats').innerHTML = ""
+    loadButtons()
+  
+  }, 500));
 
   let users = document.querySelector("#student-list").children;
   let counter = 0;
@@ -275,6 +286,9 @@ const loadButtons = async () => {
   }
   console.log("last", users);
   for (let user of users) {
+    user.addEventListener('click',()=>{
+      addHeader(true)
+    })
     const email = document.createElement("button");
     email.style.position = "absolute";
     email.style.top = "0px";
@@ -430,8 +444,10 @@ ${support} with the Learner Support Team`;
     user.appendChild(Edit);
   }
 
+  if(!document.querySelector('.studentStats')){
 
-  addHeader()
+    addHeader()
+  }
 };
 
 window.addEventListener("load", loadButtons, false);
