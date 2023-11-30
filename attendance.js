@@ -234,6 +234,23 @@ function formatDate(dateString) {
   return date.toLocaleDateString(undefined, options);
 }
 
+
+function addHeader()=>{
+  let container= document.querySelector("#list-view-container")
+  var newElement = document.createElement('div');
+  container.insertBefore(newElement, container.firstChild);
+  const students = document.querySelectorAll('.has-avatar').length
+  const absent = document.querySelectorAll('.absent.has-avatar').length
+  const late = document.querySelectorAll('.late.has-avatar').length
+  
+  console.log('abent',absent)
+  console.log('late',late)
+  newElement.innerHTML = `<h5>Students: ${students} </h5>
+  <h5>absent: ${absent}</h5> 
+  <h5>Late: ${late}</h5> `; 
+}
+
+
 const loadButtons = async () => {
   let nextDay = document.querySelector("#next-day");
 
@@ -412,6 +429,9 @@ ${support} with the Learner Support Team`;
     user.appendChild(late);
     user.appendChild(Edit);
   }
+
+
+  addHeader()
 };
 
 window.addEventListener("load", loadButtons, false);

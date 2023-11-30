@@ -38,7 +38,7 @@
         },
      
         {
-            "matches": ["https://rollcall.instructure.com/sections/1570"],
+            "matches": ["https://rollcall.instructure.com/sections/*"],
             "js": ["attendance.js"],
             "css":["contentScript.css"],
 
