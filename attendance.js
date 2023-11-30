@@ -204,6 +204,14 @@ function createModal(initialAbsences = [], initialLates = []) {
 
 
   const loadButtons= async()=>{
+
+    let nextDay = document.querySelector("#next-day") 
+
+    nextDay.addEventListener('click',()=>setTimeout(()=> loadButtons(),500))
+    let backDay = document.querySelector("#previous-day") 
+
+    backDay.addEventListener('click',()=>setTimeout(()=> loadButtons(),500))
+
     console.log(document.querySelector("#student-list").children);
 
     let users = document.querySelector("#student-list").children;
