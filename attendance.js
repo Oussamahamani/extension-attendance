@@ -35,12 +35,15 @@ function createModal(initialAbsences = [], initialLates = []) {
     closeButton.innerHTML = '&times;';
     closeButton.addEventListener('click', closeModal);
 
+  
+  
     // Create section for absences
     const absenceSection = createSection('Absences', 'absenceDate', 'absenceList', 'submitAbsence', initialAbsences);
 
     // Create section for lates
     const lateSection = createSection('Lates', 'lateDate', 'lateList', 'submitLate', initialLates);
 
+    
     // Append elements to the modal
     modal.appendChild(closeButton);
     modal.appendChild(absenceSection);
@@ -58,6 +61,15 @@ function createModal(initialAbsences = [], initialLates = []) {
     // Display modal and overlay
     modal.style.display = 'flex';
     overlay.style.display = 'block';
+    const title = document.createElement('div');
+    title.classList.add('modal-title');
+    title.textContent = currentName;
+  
+    // Append elements to the modal
+    modal.appendChild(closeButton);
+    modal.appendChild(title); // Add this line to append the title
+    modal.appendChild(absenceSection);
+    modal.appendChild(lateSection);
   }
 
   function createSection(title, inputId, listId, buttonId, initialData) {
@@ -191,10 +203,7 @@ function createModal(initialAbsences = [], initialLates = []) {
 
 
 
-  
-window.addEventListener(
-  "load",
-  async () => {
+  const loadButtons= async()=>{
     console.log(document.querySelector("#student-list").children);
 
     let users = document.querySelector("#student-list").children;
@@ -307,7 +316,12 @@ console.log(str)
       user.appendChild(late);
       user.appendChild(Edit)
     }
-  },
+  }
+
+
+window.addEventListener(
+  "load",
+loadButtons,
   false
 );
 
