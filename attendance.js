@@ -10,7 +10,7 @@ function getOrdinalSuffix(day) {
     }
   }
   
-  function formatDate(timestamp) {
+  function formatDateToFit(timestamp) {
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   
@@ -23,6 +23,7 @@ function getOrdinalSuffix(day) {
   
     return `${dayOfWeek}, ${month} ${dayOfMonth}${ordinalSuffix}, ${year}`;
   }
+  
   
 function createModal(initialAbsences = [], initialLates = []) {
     // Create modal elements
@@ -121,24 +122,14 @@ function createModal(initialAbsences = [], initialLates = []) {
   }
 
   function handleSubmit(inputId, listId) {
-    console.log(currentName,inputId,'kkkkk',listId)
     const dateInput = document.getElementById(inputId);
     const dateList = document.getElementById(listId);
     const dateValue = dateInput.value;
-    console.log('time',dateInput.value)
 
-    if (dateValue) {
-      const dateItem = createInitialDateItem(dateValue, listId);
-      console.log(dateItem)
-      dateList.appendChild(dateItem);
-
-      // Clear the date input
-      dateInput.value = '';
-    }
     let timeStamp = new Date(dateInput.value).getTime()+25200000
-    let formatedDate = formatDate(timeStamp)
+    let formatedDate = formatDateToFit(timeStamp)
     let status = "absent"
-    if(inputId !== absenceDate) status = "late"
+    if(inputId !== "absenceDate") status = "late"
     let obj ={
         name:currentName,
         date:dateInput.value,
@@ -146,7 +137,26 @@ function createModal(initialAbsences = [], initialLates = []) {
         formatedDate,
         status
     }
-    
+    console.log(obj)
+    if (dateValue) {
+      const dateItem = createInitialDateItem(dateValue, listId);
+      console.log(dateItem)
+      dateList.appendChild(dateItem);
+
+      dateInput.value = '';
+    }
+    let data = []
+      chrome.storage.sync.get([currentName], (res) => {
+        console.log(res);
+        if(res[currentName]){
+          data = res[currentName]
+        }
+      data.push(obj)
+      chrome.storage.sync.set({
+        [currentName]: data,
+      });
+
+      });
     
   }
 
